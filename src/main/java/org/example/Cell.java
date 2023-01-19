@@ -15,8 +15,7 @@ public class Cell {
 
     public void addAnimalsToCurrentCell(Animal animal) {
         allAnimalsInCurrentCell.add(animal);
-        //System.out.println("to "+  this + " added animal: " + animal.toString());
-
+        //System.out.println(allAnimalsInCurrentCell);
     }
 
     public void removeFromCurrentCell(Animal animal) {
@@ -37,9 +36,19 @@ public class Cell {
 
     @Override
     public String toString() {
-        return "Cell{" +
+        int fox = 0;
+        int boa = 0;
+        int eagle = 0;
+        int wolf = 0;
+        for (Animal a : allAnimalsInCurrentCell) {
+            if (a instanceof Fox) fox++;
+            if (a instanceof Boa) boa++;
+            if (a instanceof Eagle) eagle++;
+            if (a instanceof Wolf) wolf++;
+        }
+        return " In cell{" +
                 "x=" + position.getHeight() + ", y=" + position.getLength() +
-                '}' + allAnimalsInCurrentCell;
+                '}' + " are: " + " Fox=" + fox + ", Boa=" + boa + ", Eagle=" + eagle + ", Wolf=" + wolf;
     }
 
 }

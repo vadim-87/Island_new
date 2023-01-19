@@ -46,6 +46,7 @@ public class Main {
     public static void main(String[] arg) throws InterruptedException {
         Island island = new Island();
         //island.start();
+        //island.printAllCells();
         island.printAllCells();
 //        Animal l = new Eagle(new Cell(new Position(5, 6)));
 //        l.getCurrentPosition();
