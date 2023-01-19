@@ -9,19 +9,16 @@ public class Boa extends Animal {
         super(cell);
     }
 
-    @Override
-    int getMaxNumberOfPopulation() {
-        return 8;
-    }
 
     @Override
     Position getNewPosition() {
         return null;
     }
 
+
     @Override
     public String toString() {
-        return "Boa, координаты высота: " + this.getCurrentPosition().getHeight()
-                + " ширина " + this.getCurrentPosition().getLength();
+        return "Boa x=" + this.getCurrentPosition().getHeight()
+                + " y=" + this.getCurrentPosition().getLength();
     }
 }

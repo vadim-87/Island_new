@@ -45,15 +45,14 @@ public class Main {
 
     public static void main(String[] arg) throws InterruptedException {
         Island island = new Island();
-        island.start();
+        //island.start();
+        island.printAllCells();
 //        Animal l = new Eagle(new Cell(new Position(5, 6)));
 //        l.getCurrentPosition();
 //        Animal cat = new Fox(new Cell(new Position(65, 98)));
 //        System.out.println(cat.getMaxNumberOfPopulation());
 
-        AnimalFactory animalFactory = new AnimalFactory();
-        Animal s = animalFactory.createAnimal(AnimalTypes.EAGLE, new Cell(new Position(5, 6)));
-        Random r = new Random();
+        Animal fox = new Fox(new Cell(new Position(54, 69)));
 
 
     }

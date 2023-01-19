@@ -7,16 +7,16 @@ abstract class Animal {
     public Animal(Cell cell) {
 
         this.cell = cell;
-        cell.addAnimalsToIsland(this);
+        cell.addAnimalsToCurrentCell(this);
 
     }
+
 
     private void setCell(Cell newCell){
         cell = newCell;
     }
 
 
-    abstract int getMaxNumberOfPopulation();
 
     public Position getCurrentPosition(){
         return cell.getPosition();
@@ -25,8 +25,8 @@ abstract class Animal {
     abstract Position getNewPosition();
 
     void move(Cell newCell) {
-        cell.removeFromItems(this);
-        newCell.addAnimalsToIsland(this);
+        cell.removeFromCurrentCell(this);
+        newCell.addAnimalsToCurrentCell(this);
         setCell(newCell);
     }
 

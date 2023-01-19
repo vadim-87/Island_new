@@ -13,10 +13,6 @@ public class Fox extends Animal {
         super(cell);
     }
 
-    @Override
-    int getMaxNumberOfPopulation() {
-        return 20;
-    }
 
     @Override
     Position getNewPosition() {
@@ -47,7 +43,7 @@ public class Fox extends Animal {
 
     @Override
     public String toString() {
-        return "Fox, координаты высота: " + this.getCurrentPosition().getHeight()
-                + " ширина " + this.getCurrentPosition().getLength();
+        return "Fox x=" + this.getCurrentPosition().getHeight()
+                + " y=" + this.getCurrentPosition().getLength();
     }
 }

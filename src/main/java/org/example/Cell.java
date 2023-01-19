@@ -5,28 +5,21 @@ import java.util.List;
 
 public class Cell {
 
-    @Override
-    public String toString() {
-        return "Cell{" +
-                "position=" + position +
-                '}';
-    }
-
     private Position position;
+
     private List<Animal> allAnimalsInCurrentCell = new ArrayList<>();
-    private List<Class<? extends Animal>> listOfAnimalTypes;
 
     public Cell(Position position) {
         this.position = position;
     }
 
-    public void addAnimalsToIsland(Animal animal){
-        for (int i = 0; i < 10; i++) {
-            allAnimalsInCurrentCell.add(animal);
-        }
+    public void addAnimalsToCurrentCell(Animal animal) {
+        allAnimalsInCurrentCell.add(animal);
+        //System.out.println("to "+  this + " added animal: " + animal.toString());
+
     }
 
-    public void removeFromItems(Animal animal){
+    public void removeFromCurrentCell(Animal animal) {
         allAnimalsInCurrentCell.remove(animal);
     }
 
@@ -35,11 +28,18 @@ public class Cell {
     }
 
     public void processCell() {//todo
-        for(Animal ic : allAnimalsInCurrentCell){
-            if(ic.getClass() == Fox.class) {
+        for (Animal ic : allAnimalsInCurrentCell) {
+            if (ic.getClass() == Fox.class) {
                 //todo
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "x=" + position.getHeight() + ", y=" + position.getLength() +
+                '}' + allAnimalsInCurrentCell;
     }
 
 }
