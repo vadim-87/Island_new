@@ -12,7 +12,7 @@ public class Wolf extends Animal {
 
     @Override
     public String toString() {
-        return "Wolf x=" + this.getCurrentPosition().getHeight()
+        return "🐺 x=" + this.getCurrentPosition().getHeight()
                 + " y=" + this.getCurrentPosition().getLength();
     }
 

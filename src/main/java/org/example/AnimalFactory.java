@@ -1,7 +1,7 @@
 package org.example;
 
 public class AnimalFactory {
-    public Animal createAnimal (AnimalTypes animal, Cell cell){
+    public Animal createAnimal (AnimalType animal, Cell cell){
         return switch (animal) {
             case BOA -> new Boa(cell);
             case FOX -> new Fox(cell);

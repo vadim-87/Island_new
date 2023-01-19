@@ -52,7 +52,6 @@ public class Cell {
         }
         return " In cell{" +
                 "x=" + position.getHeight() + ", y=" + position.getLength() +
-                '}' + " are: " + " Fox=" + fox + ", Boa=" + boa + ", Eagle=" + eagle + ", Wolf=" + wolf;
+                '}' + " are: " + " \uD83E\uDD8A=" + fox + ", \uD83D\uDC0D=" + boa + ", \uD83E\uDD85=" + eagle + ", \uD83D\uDC3A=" + wolf;
     }
-
 }

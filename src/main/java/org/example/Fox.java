@@ -43,7 +43,7 @@ public class Fox extends Animal {
 
     @Override
     public String toString() {
-        return "Fox x=" + this.getCurrentPosition().getHeight()
+        return "🦊 x=" + this.getCurrentPosition().getHeight()
                 + " y=" + this.getCurrentPosition().getLength();
     }
 }

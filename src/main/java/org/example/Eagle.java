@@ -14,7 +14,7 @@ public class Eagle extends Animal {
 
     @Override
     public String toString() {
-        return "Eagle x=" + this.getCurrentPosition().getHeight()
+        return "🦅 x=" + this.getCurrentPosition().getHeight()
                 + " y=" + this.getCurrentPosition().getLength();
     }
 
