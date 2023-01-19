@@ -7,6 +7,10 @@ public class Cell {
 
     private Position position;
 
+    public List<Animal> getAllAnimalsInCurrentCell() {
+        return allAnimalsInCurrentCell;
+    }
+
     private List<Animal> allAnimalsInCurrentCell = new ArrayList<>();
 
     public Cell(Position position) {

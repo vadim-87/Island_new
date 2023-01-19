@@ -15,10 +15,10 @@ public class Island {
     public static int length = ISLAND_LENGTH;
 
     public Island() {
-        init();
+        initializeIsland();
     }
 
-    private void init() {
+    private void initializeIsland() {
         islandMap = new HashMap<>();
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < height; j++) {
@@ -52,31 +52,15 @@ public class Island {
 
 
     public void start() {
-
-        for (Animal animal : allAnimalsOnIsland) {
-        }
-
-//        }
-//        for (Animal animal:allAnimalsOnIsland) {
-//            System.out.println(animal);
-//        }
-//
-//        while (allAnimalsOnIsland.size() > 0) {//TODO
-//            for (Animal it : allAnimalsOnIsland) {
-//                Cell newCell = islandMap.get(it.getNewPosition());
-//                it.move(newCell);
-//            }
-//
-//            for (Cell cell : islandMap.values()) {
-//                cell.processCell();
-//
-//            }
+        islandMap.forEach((key, value) -> {
+           List<Animal> list = value.getAllAnimalsInCurrentCell();
+            for (Animal animal:list) {
+                animal.getCurrentPosition();//TODO
+            }
+        });
     }
 
-    void printNumberAnimals() {
-//        islandMap.forEach((key, value) -> {
-//            System.out.println(value.toString());
-//        });
+    void printAnimalCount() {
         int fox = 0;
         int boa = 0;
         int eagle = 0;
@@ -87,7 +71,7 @@ public class Island {
             if (a instanceof Eagle) eagle++;
             if (a instanceof Wolf) wolf++;
         }
-        System.out.printf("Fox %s, Boa %s, Eagle %s, Wolf %s", fox, boa, eagle, wolf);
+        System.out.printf("Fox=%s, Boa=%s, Eagle=%s, Wolf=%s, all count=%s\n", fox, boa, eagle, wolf, allAnimalsOnIsland.size());
     }
 
     void printAllCells() {
