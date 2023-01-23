@@ -1,12 +1,15 @@
 package org.example;
 
 public class AnimalFactory {
+
+
     public Animal createAnimal (AnimalType animal, Cell cell){
         return switch (animal) {
             case BOA -> new Boa(cell);
             case FOX -> new Fox(cell);
             case EAGLE -> new Eagle(cell);
             case WOLF -> new Wolf(cell);
+            case BEAR -> new Bear(cell);
             default -> throw new IllegalArgumentException("Wrong doughnut type:" + animal);
         };
     }

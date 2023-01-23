@@ -3,14 +3,10 @@ package org.example;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static org.example.AnimalType.*;
 import static org.example.Parameters.*;
 
 public class Island {
     private Map<Position, Cell> islandMap;
-    private final Map<AnimalType, Integer> initialCount = Map.of(BOA, 30, WOLF, 30, EAGLE, 20, FOX, 30);
-   // private final List<AnimalType> animalTypesList = Arrays.asList(WOLF, BOA, FOX, EAGLE);
-    private final List<AnimalType> animalTypesList = Arrays.asList(BOA, FOX);
     private List<Animal> allAnimalsOnIsland;
     public static int height = ISLAND_HEIGHT;
     public static int length = ISLAND_LENGTH;
@@ -32,60 +28,65 @@ public class Island {
     }
 
     public void addAnimalsToIsland() {
-        Animal newAnimal = null;
         allAnimalsOnIsland = new ArrayList<>();
         AnimalFactory animalFactory = new AnimalFactory();
-        for (Map.Entry<Position, Cell> entry : islandMap.entrySet()) {
-            Cell currentCell = entry.getValue();
+        islandMap.forEach((key, value) -> {
+            Animal newAnimal = null;
             for (AnimalType type : animalTypesList) {
                 int maxAnimalCount = initialCount.get(type);
                 int currentAnimalCount = ThreadLocalRandom.current().nextInt(1, maxAnimalCount);
                 for (int i = 0; i < currentAnimalCount; i++) {
-                    newAnimal = animalFactory.createAnimal(type, currentCell);
+                    newAnimal = animalFactory.createAnimal(type, value);
                     newAnimal.setAnimalType(type);
                     allAnimalsOnIsland.add(newAnimal);
                 }
             }
-            currentCell.addAnimalsToCurrentCell(newAnimal);
+            value.addAnimalsToCurrentCell(newAnimal);
 
-        }
-
-    }
-
-
-    public void start() {
-        islandMap.forEach((key, value) -> {
-           List<Animal> list = value.getAllAnimalsInCurrentCell();
-            for (int i = 0; i < list.size(); i++) {
-
-            }
         });
-    }
-
-    void printAnimalCount() {
-        int fox = 0;
-        int boa = 0;
-        int eagle = 0;
-        int wolf = 0;
-        for (Animal a : allAnimalsOnIsland) {
-            if (a instanceof Fox) fox++;
-            if (a instanceof Boa) boa++;
-            if (a instanceof Eagle) eagle++;
-            if (a instanceof Wolf) wolf++;
-        }
-        System.out.printf("Fox=%s, Boa=%s, Eagle=%s, Wolf=%s, all count=%s\n", fox, boa, eagle, wolf, allAnimalsOnIsland.size());
-        Animal one = allAnimalsOnIsland.get(15);
-        Animal two = allAnimalsOnIsland.get(45);
-        int x = one.interactions(two);
-        System.out.println(x);
 
     }
 
-    void printAllCells() {
+    public void newDayStart() {
+        ReportClass report = new ReportClass();
+        report.printAllIslandStatistic(allAnimalsOnIsland);
         for (Map.Entry<Position, Cell> entry : islandMap.entrySet()) {
             Cell currentCell = entry.getValue();
-            System.out.println(currentCell);
+            List<Animal> animalsInCurrentCell = currentCell.getAllAnimalsInCurrentCell().stream().toList();
+            //System.out.printf("Cell: x%s, y%s\n", currentCell.getPosition().getLength(), currentCell.getPosition().getHeight());
+
+            for (int i = 0; i < animalsInCurrentCell.size(); i++) {
+                Animal animal_1 = animalsInCurrentCell.get(i);
+                for (int j = i + 1; j < animalsInCurrentCell.size(); j++) {
+                    Animal animal_2 = animalsInCurrentCell.get(j);
+                    int codeOfAction = animal_1.actionBetweenAnimals(animal_2);
+                    if (codeOfAction == 0) {
+                        codeOfAction = animal_2.actionBetweenAnimals(animal_1);
+                    }
+                    if (codeOfAction == 1) {
+                        if (animal_1.tryingToReproductive(animal_2, allAnimalsOnIsland)) {
+                            report.animalReproduce(animal_2);
+                        }
+                    }
+                    else if (codeOfAction > 1) {
+                        if(animal_1.tryingToEat(animal_2, codeOfAction, allAnimalsOnIsland)){
+                            report.animalDeath(animal_2);
+                        }
+                    }
+                }
+            }
+
+            //System.out.println("------------------");
         }
+        report.printAllIslandStatistic(allAnimalsOnIsland);
+
     }
 
+    void printAllAnimalsInCells() {
+        islandMap.forEach((key, value) -> {
+            System.out.println(value);
+
+        });
+
+    }
 }
