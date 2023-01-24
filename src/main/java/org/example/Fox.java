@@ -1,9 +1,5 @@
 package org.example;
 
-import org.example.Animal;
-import org.example.Cell;
-import org.example.Island;
-import org.example.Position;
 
 import java.util.Random;
 
@@ -11,6 +7,7 @@ public class Fox extends Animal {
 
     public Fox(Cell cell) {
         super(cell);
+        this.setWeight(8);
     }
 
 
@@ -44,6 +41,6 @@ public class Fox extends Animal {
     @Override
     public String toString() {
         return "🦊 x=" + this.getCurrentPosition().getHeight()
-                + " y=" + this.getCurrentPosition().getLength();
+                + " y=" + this.getCurrentPosition().getLength() + " health=" + this.getHealth();
     }
 }
