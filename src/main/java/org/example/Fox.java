@@ -3,7 +3,7 @@ package org.example;
 
 import java.util.Random;
 
-public class Fox extends Animal {
+public class Fox extends Predator {
 
     public Fox(Cell cell) {
         super(cell);
@@ -43,4 +43,6 @@ public class Fox extends Animal {
         return "🦊 x=" + this.getCurrentPosition().getHeight()
                 + " y=" + this.getCurrentPosition().getLength() + " health=" + this.getHealth();
     }
+
+
 }
