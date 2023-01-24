@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 abstract class Animal implements Runnable {
 
     private Cell cell;
+    public boolean isAlive = true;
     private AnimalType animalType;
     private int weight;
     private volatile int health = 100;
@@ -81,6 +82,7 @@ abstract class Animal implements Runnable {
         if (eatOrNo) {
             cell.removeFromCell(animal_2);
             listAllAnimals.remove(animal_2);
+            animal_2.isAlive = false;
             return true;
         }
         return false;

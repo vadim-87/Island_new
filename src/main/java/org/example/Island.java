@@ -42,51 +42,48 @@ public class Island {
                 }
             }
             value.addAnimalsToCurrentCell(newAnimal);
-
         });
-
+        ReportClass.initOfAnimals = allAnimalsOnIsland.size();
     }
 
     public void newDayStart() {
         ReportClass report = new ReportClass();
         report.printAllIslandStatistic(allAnimalsOnIsland);
-        for (Map.Entry<Position, Cell> entry : islandMap.entrySet()) {
-            Cell currentCell = entry.getValue();
+        islandMap.forEach((key, currentCell) -> {
             List<Animal> animalsInCurrentCell = currentCell.getAllAnimalsInCurrentCell().stream().toList();
-            //System.out.printf("Cell: x%s, y%s\n", currentCell.getPosition().getLength(), currentCell.getPosition().getHeight());
-
             for (int i = 0; i < animalsInCurrentCell.size(); i++) {
                 Animal animal_1 = animalsInCurrentCell.get(i);
-                for (int j = i + 1; j < animalsInCurrentCell.size(); j++) {
-                    Animal animal_2 = animalsInCurrentCell.get(j);
-                    int codeOfAction = animal_1.actionBetweenAnimals(animal_2);
-                    if (codeOfAction == 0) {
-                        codeOfAction = animal_2.actionBetweenAnimals(animal_1);
-                    }
-                    if (codeOfAction == 1) {
-                        if (animal_1.tryingToReproductive(animal_2, allAnimalsOnIsland)) {
-                            report.animalReproduce(animal_2);
-                        }
-                    }
-                    else if (codeOfAction > 1) {
-                        if(animal_1.tryingToEat(animal_2, codeOfAction, allAnimalsOnIsland)){
-                            report.animalDeath(animal_2);
+                if (animal_1.isAlive) {
+                    for (int j = i + 1; j < animalsInCurrentCell.size(); j++) {
+                        Animal animal_2 = animalsInCurrentCell.get(j);
+                        if (animal_2.isAlive) {
+                            int codeOfAction = animal_1.actionBetweenAnimals(animal_2);
+                            boolean test = false;
+                            if (codeOfAction == 0) {
+                                codeOfAction = animal_2.actionBetweenAnimals(animal_1);
+                                test = true;
+                            }
+                            if (codeOfAction == 1) {
+                                if (animal_1.tryingToReproductive(animal_2, allAnimalsOnIsland)) {
+                                    report.animalReproduce(animal_2);
+                                }
+                            } else if (codeOfAction > 1) {
+                                if (test) {
+                                    if (animal_2.tryingToEat(animal_1, codeOfAction, allAnimalsOnIsland)) {
+                                        report.animalDeath(animal_1);
+                                    }
+                                } else {
+                                    if (animal_1.tryingToEat(animal_2, codeOfAction, allAnimalsOnIsland)) {
+                                        report.animalDeath(animal_2);
+                                    }
+                                }
+                                break;
+                            }
                         }
                     }
                 }
             }
-
-            //System.out.println("------------------");
-        }
-        report.printAllIslandStatistic(allAnimalsOnIsland);
-
-    }
-
-    void printAllAnimalsInCells() {
-        islandMap.forEach((key, value) -> {
-            System.out.println(value);
-
         });
-
+        report.printAllIslandStatistic(allAnimalsOnIsland);
     }
 }
