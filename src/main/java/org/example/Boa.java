@@ -2,10 +2,10 @@ package org.example;
 
 
 
-public class Boa extends Animal {
+public class Boa extends Predator implements Edible {
     public Boa(Cell cell) {
         super(cell);
-        this.setWeight(15);
+        this.setWeight(15.0);
 
     }
 

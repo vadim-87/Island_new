@@ -1,16 +1,11 @@
 package org.example;
 
-import org.example.Animal;
-import org.example.Cell;
-import org.example.Position;
-
-import java.util.concurrent.ThreadLocalRandom;
-
-public class Wolf extends Animal {
+public class Wolf extends Predator {
 
     public Wolf(Cell cell) {
         super(cell);
         this.setWeight(50);
+
 
     }
 

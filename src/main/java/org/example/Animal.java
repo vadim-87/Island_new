@@ -3,13 +3,14 @@ package org.example;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-abstract class Animal implements Runnable {
-
+abstract class Animal implements Move {
     private Cell cell;
+    private int maxCountInCell;
     private AnimalType animalType;
-    private int weight;
-    private volatile int health = 100;
+    private double weight;
+    private volatile double health = 50;
     private boolean sex;
+    private boolean isAlive = true;
 
     public Animal(Cell cell) {
         this.cell = cell;
@@ -17,6 +18,23 @@ abstract class Animal implements Runnable {
         this.setSex(ThreadLocalRandom.current().nextBoolean());
 
     }
+    public int getMaxCountInCell() {
+        return maxCountInCell;
+    }
+
+    public void setMaxCountInCell(int maxCountInCell) {
+        this.maxCountInCell = maxCountInCell;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
+
+
 
     public boolean getSex() {
         return sex;
@@ -27,20 +45,20 @@ abstract class Animal implements Runnable {
     }
 
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
-    public void setHealth(int health) {
+    public void setHealth(double health) {
         this.health = health;
     }
 
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 
@@ -70,23 +88,6 @@ abstract class Animal implements Runnable {
     abstract Position getNewPosition();
 
 
-    public int actionBetweenAnimals(Animal animal) {
-        return Parameters.animalCompatibilityMatrix[this.getAnimalType().getIndex()][animal.getAnimalType().getIndex()];
-    }
-
-
-    public boolean tryingToEat(Animal animal_2, int chance, List<Animal> listAllAnimals) {
-        int ran = ThreadLocalRandom.current().nextInt(0, 100);
-        boolean eatOrNo = (chance > ran);
-        if (eatOrNo) {
-            cell.removeFromCell(animal_2);
-            listAllAnimals.remove(animal_2);
-            return true;
-        }
-        return false;
-    }
-
-
     public boolean tryingToReproductive(Animal animal_2, List<Animal> listAllAnimals) {
 
         if (this.getSex() != animal_2.getSex()) {
@@ -104,19 +105,18 @@ abstract class Animal implements Runnable {
         return false;
     }
 
-
-    @Override
-    public void run() {
-        int health = this.getHealth();
-        while (true) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+    public boolean tryingToEat(Animal prey, int chance, List<Animal> listAllAnimals) {
+        if (!((this.getHealth() + prey.weight * Parameters.INDEX_OF_ATE_UP) > 100)) {//настолько ли сыт, чтоб сожрать жертву
+            int ran = ThreadLocalRandom.current().nextInt(0, 100);
+            boolean eatOrNo = (chance > ran);
+            if (eatOrNo) {
+                Edible foodstuff = (Edible) prey;
+                Eatable eatingAnimal = (Eatable) this;
+                eatingAnimal.eat(foodstuff);
+                foodstuff.beEaten(listAllAnimals);
+                return true;
             }
-            health = health - 10;
-            this.setHealth(health);
         }
-
+        return false;
     }
 }

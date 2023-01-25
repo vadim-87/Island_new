@@ -1,21 +1,24 @@
 package org.example;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.*;
 
-import static org.example.Parameters.*;
+import static org.example.AnimalType.*;
+import static org.example.AnimalType.HORSE;
+
 
 public class Island {
+
     private Map<Position, Cell> islandMap;
     private List<Animal> allAnimalsOnIsland;
-    public static int height = ISLAND_HEIGHT;
-    public static int length = ISLAND_LENGTH;
+    public static int height = Parameters.ISLAND_HEIGHT;
+    public static int length = Parameters.ISLAND_LENGTH;
 
-    public Island() {
+    public Island() throws InterruptedException {
         initializeIsland();
     }
 
-    private void initializeIsland() {
+    private void initializeIsland() throws InterruptedException {//создал остров
         islandMap = new HashMap<>();
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < height; j++) {
@@ -24,69 +27,71 @@ public class Island {
                 islandMap.put(position, cell);
             }
         }
-        addAnimalsToIsland();
+        plantsGrow();//засеял травой
+        addAnimalsToIsland();//заселил зверей
+    }
+
+    private void plantsGrow() {
+        islandMap.forEach((position, cell) -> {
+            List<Plant> plantsOnCurrentCell = cell.getPlantsInCurrentCell();
+            int count = ThreadLocalRandom.current().nextInt(1, 200);
+            for (int i = 0; i < count; i++) {
+                plantsOnCurrentCell.add(new Plant(cell));
+            }
+            //System.out.println("in Cell" + cell.getPosition().getLength() + ", " + cell.getPosition().getHeight() + " add " + count + "plants");
+        });
+
+//        Runnable growPlantsTask = new GrowPlants();
+//        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+//        executorService.scheduleAtFixedRate(growPlantsTask, 1, 2, TimeUnit.SECONDS);
+
+
     }
 
     public void addAnimalsToIsland() {
         allAnimalsOnIsland = new ArrayList<>();
         AnimalFactory animalFactory = new AnimalFactory();
-        islandMap.forEach((key, value) -> {
+        islandMap.forEach((key, cell) -> {
             Animal newAnimal = null;
-            for (AnimalType type : animalTypesList) {
-                int maxAnimalCount = initialCount.get(type);
+
+            for (AnimalType type : Parameters.animalTypesList) {
+                int maxAnimalCount = type.getMaxCountInCell();
                 int currentAnimalCount = ThreadLocalRandom.current().nextInt(1, maxAnimalCount);
                 for (int i = 0; i < currentAnimalCount; i++) {
-                    newAnimal = animalFactory.createAnimal(type, value);
+                    newAnimal = animalFactory.createAnimal(type, cell);
                     newAnimal.setAnimalType(type);
                     allAnimalsOnIsland.add(newAnimal);
                 }
             }
-            value.addAnimalsToCurrentCell(newAnimal);
+            cell.addAnimalsToCurrentCell(newAnimal);
 
         });
+        ReportClass.initOfAnimals = allAnimalsOnIsland.size();
 
     }
+
 
     public void newDayStart() {
+        actionsInsideCells();
+        movementBetweenCells();
+        nightSleep();
+    }
+
+
+    private void actionsInsideCells() {
         ReportClass report = new ReportClass();
         report.printAllIslandStatistic(allAnimalsOnIsland);
-        for (Map.Entry<Position, Cell> entry : islandMap.entrySet()) {
-            Cell currentCell = entry.getValue();
-            List<Animal> animalsInCurrentCell = currentCell.getAllAnimalsInCurrentCell().stream().toList();
-            //System.out.printf("Cell: x%s, y%s\n", currentCell.getPosition().getLength(), currentCell.getPosition().getHeight());
-
-            for (int i = 0; i < animalsInCurrentCell.size(); i++) {
-                Animal animal_1 = animalsInCurrentCell.get(i);
-                for (int j = i + 1; j < animalsInCurrentCell.size(); j++) {
-                    Animal animal_2 = animalsInCurrentCell.get(j);
-                    int codeOfAction = animal_1.actionBetweenAnimals(animal_2);
-                    if (codeOfAction == 0) {
-                        codeOfAction = animal_2.actionBetweenAnimals(animal_1);
-                    }
-                    if (codeOfAction == 1) {
-                        if (animal_1.tryingToReproductive(animal_2, allAnimalsOnIsland)) {
-                            report.animalReproduce(animal_2);
-                        }
-                    }
-                    else if (codeOfAction > 1) {
-                        if(animal_1.tryingToEat(animal_2, codeOfAction, allAnimalsOnIsland)){
-                            report.animalDeath(animal_2);
-                        }
-                    }
-                }
-            }
-
-            //System.out.println("------------------");
-        }
+        islandMap.forEach((position, cell) -> {
+            cell.processCell(report, allAnimalsOnIsland);
+        });
         report.printAllIslandStatistic(allAnimalsOnIsland);
+    }
+
+    private void movementBetweenCells() {
+
 
     }
 
-    void printAllAnimalsInCells() {
-        islandMap.forEach((key, value) -> {
-            System.out.println(value);
-
-        });
-
+    private void nightSleep() {
     }
 }

@@ -2,7 +2,7 @@ package org.example;
 
 
 
-public class Eagle extends Animal {
+public class Eagle extends Predator {
 
 
     @Override

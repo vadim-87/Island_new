@@ -10,6 +10,8 @@ public class AnimalFactory {
             case EAGLE -> new Eagle(cell);
             case WOLF -> new Wolf(cell);
             case BEAR -> new Bear(cell);
+            case HORSE -> new Horse(cell);
+            case CATERPILLAR -> new Caterpillar(cell);
             default -> throw new IllegalArgumentException("Wrong doughnut type:" + animal);
         };
     }
