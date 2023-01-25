@@ -4,18 +4,26 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 abstract class Animal implements Move {
-    ReportClass reportClass = new ReportClass();
     private Cell cell;
+    private int maxCountInCell;
     private AnimalType animalType;
     private double weight;
     private volatile double health = 50;
     private boolean sex;
+    private boolean isAlive = true;
 
     public Animal(Cell cell) {
         this.cell = cell;
         cell.addAnimalsToCurrentCell(this);
         this.setSex(ThreadLocalRandom.current().nextBoolean());
 
+    }
+    public int getMaxCountInCell() {
+        return maxCountInCell;
+    }
+
+    public void setMaxCountInCell(int maxCountInCell) {
+        this.maxCountInCell = maxCountInCell;
     }
 
     public boolean isAlive() {
@@ -26,7 +34,6 @@ abstract class Animal implements Move {
         isAlive = alive;
     }
 
-    private boolean isAlive = true;
 
 
     public boolean getSex() {
@@ -112,6 +119,4 @@ abstract class Animal implements Move {
         }
         return false;
     }
-
-
 }

@@ -5,6 +5,7 @@ import java.util.List;
 public class Horse extends PlantEeating {
     public Horse(Cell cell) {
         super(cell);
+        this.setWeight(400);
     }
 
     @Override

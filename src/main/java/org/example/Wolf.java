@@ -6,6 +6,7 @@ public class Wolf extends Predator {
         super(cell);
         this.setWeight(50);
 
+
     }
 
 

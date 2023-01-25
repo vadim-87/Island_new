@@ -11,12 +11,12 @@ public class ReportClass {
     List<Animal> listOfAnimalBorn;
 
     public ReportClass() {
-       listOfAnimalDie = new ArrayList<>();
-       listOfAnimalBorn = new ArrayList<>();
+        listOfAnimalDie = new ArrayList<>();
+        listOfAnimalBorn = new ArrayList<>();
     }
 
 
-    public void printListAnimal (List<Animal> list){
+    public void printListAnimal(List<Animal> list) {
         for (int i = 0; i < list.size(); i++) {
             Animal a = list.get(i);
             System.out.println(i + " " + a);
@@ -24,20 +24,20 @@ public class ReportClass {
         }
 
 
-
     }
 
 
-    public void printAllIslandStatistic (List<Animal> list){
+    public void printAllIslandStatistic(List<Animal> list) {
         int x = initOfAnimals + listOfAnimalBorn.size() - listOfAnimalDie.size();
-        for (AnimalType type:animalTypesList) {
+        for (AnimalType type : Parameters.animalTypesList) {
             List<Animal> collect = list.stream().filter(animal -> animal.getAnimalType() == type).toList();
             System.out.println(type + "S=" + collect.size());
         }
         System.out.println("all animals " + list.size());
         System.out.println("Born on this day: " + listOfAnimalBorn.size() + " animals");
         System.out.println("Die on this day: " + listOfAnimalDie.size() + " animals");
-        System.out.println(x);
+        System.out.println("All=" + x);
+
     }
 
     public void animalReproduce(Animal animal) {

@@ -1,6 +1,8 @@
 package org.example;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public abstract class PlantEeating extends Animal implements Eatable, Edible {
 
@@ -17,6 +19,7 @@ public abstract class PlantEeating extends Animal implements Eatable, Edible {
 
     @Override
     public void beEaten(List<Animal> listAllAnimals) {
+        Set<Plant> set = new HashSet<>();
         this.getCell().removeFromCell(this);
         this.setAlive(false);
         listAllAnimals.remove(this);
