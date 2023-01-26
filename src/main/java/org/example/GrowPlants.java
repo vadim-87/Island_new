@@ -2,12 +2,11 @@ package org.example;
 
 import java.util.concurrent.Callable;
 
-public class GrowPlants implements Callable<String> {
-
+public class GrowPlants extends Thread {
 
 
     @Override
-    public String call() throws Exception {
-        return null;
+    public void run() {
+
     }
 }

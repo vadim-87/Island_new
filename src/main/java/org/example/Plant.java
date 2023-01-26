@@ -15,7 +15,7 @@ public class Plant implements Edible {
     }
 
     @Override
-    public void beEaten(List<Animal> listAllAnimals) {
+    public void die(List<Animal> listAllAnimals) {
     }
 
 }

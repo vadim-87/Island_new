@@ -3,7 +3,6 @@ package org.example;
 import java.util.List;
 
 public abstract class Predator extends Animal implements Eatable, Edible {
-    private Cell cell;
 
     public Predator(Cell cell) {
         super(cell);
@@ -11,16 +10,13 @@ public abstract class Predator extends Animal implements Eatable, Edible {
 
 
     @Override
-    public boolean eat(Edible foodstuff) {
-        Animal animal = (Animal) foodstuff;
-        double ateUp = animal.getWeight() * Parameters.INDEX_OF_ATE_UP;
-        this.setHealth(this.getHealth() + ateUp);
+    public void eat(double food) {
+        this.setHealth(food * 0.1);
         //System.out.println(this.getAnimalType() + " " + this.getHealth());
-        return false;
     }
 
     @Override
-    public void beEaten(List<Animal> listAllAnimals) {
+    public void die(List<Animal> listAllAnimals) {
         this.getCell().removeFromCell(this);
         this.setAlive(false);
         listAllAnimals.remove(this);

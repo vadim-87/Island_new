@@ -4,19 +4,20 @@ import java.util.*;
 import java.util.concurrent.*;
 
 
-public class Island implements Callable<Runnable> {
+public class Island {
 
     private Map<Position, Cell> islandMap;
     private List<Animal> allAnimalsOnIsland;
-    public static int height = Parameters.ISLAND_HEIGHT;
-    public static int length = Parameters.ISLAND_LENGTH;
+    public static final int height = Parameters.ISLAND_HEIGHT;
+    public static final int length = Parameters.ISLAND_LENGTH;
 
-    public Island()  {
+    public Island() {
         initializeIsland();
+        plantsGrowOnIsland();//засеял травой
+        addAnimalsToIsland();//заселил зверей
     }
 
-    private void initializeIsland()  {//создал остров
-        System.out.println("Island initialization");
+    private void initializeIsland() {//создал остров
         islandMap = new HashMap<>();
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < height; j++) {
@@ -25,20 +26,15 @@ public class Island implements Callable<Runnable> {
                 islandMap.put(position, cell);
             }
         }
-        plantsGrow();//засеял травой
-        addAnimalsToIsland();//заселил зверей
     }
 
-    private void plantsGrow() {
-
-        System.out.println("ADD Plants");
+    private void plantsGrowOnIsland() {
         islandMap.forEach((position, cell) -> {
             List<Plant> plantsOnCurrentCell = cell.getPlantsInCurrentCell();
             int count = ThreadLocalRandom.current().nextInt(1, 200);
             for (int i = 0; i < count; i++) {
                 plantsOnCurrentCell.add(new Plant(cell));
             }
-            //System.out.println("in Cell" + cell.getPosition().getLength() + ", " + cell.getPosition().getHeight() + " add " + count + "plants");
         });
 
 //        Runnable growPlantsTask = new GrowPlants();
@@ -48,8 +44,7 @@ public class Island implements Callable<Runnable> {
 
     }
 
-    public void addAnimalsToIsland() {
-        System.out.println("ADD Animals on island");
+    private void addAnimalsToIsland() {
         allAnimalsOnIsland = new ArrayList<>();
         AnimalFactory animalFactory = new AnimalFactory();
         islandMap.forEach((key, cell) -> {
@@ -67,41 +62,42 @@ public class Island implements Callable<Runnable> {
             cell.addAnimalsToCurrentCell(newAnimal);
 
         });
-        ReportClass.initOfAnimals = allAnimalsOnIsland.size();
 
     }
+
 
 
     public void newDayStart() {
-
-        actionsInsideCells();
+        ReportClass report = new ReportClass();
+        Starvation st = new Starvation(allAnimalsOnIsland, report);
+        st.start();//запускаю голодание
+        actionsInsideCells(report);
         movementBetweenCells();
-        nightSleep();
+        report.printAllIslandStatistic(allAnimalsOnIsland);
+        graveyard(allAnimalsOnIsland);
+        System.out.println(allAnimalsOnIsland.get(5).getAnimalType() + " " + allAnimalsOnIsland.get(5).getHealth());
+
+
+    }
+
+    private void graveyard(List<Animal> allAnimalsOnIsland) {
+        for (int i = 0; i < allAnimalsOnIsland.size(); i++) {
+            if (allAnimalsOnIsland.get(i).isAlive() || allAnimalsOnIsland.get(i).getHealth() < 10) {
+                allAnimalsOnIsland.remove(allAnimalsOnIsland.get(i));
+            }
+        }
     }
 
 
-    private void actionsInsideCells() {
-        ReportClass report = new ReportClass();
+    private void actionsInsideCells(ReportClass report) {
         islandMap.forEach((position, cell) -> {
-            cell.processInCell(report, allAnimalsOnIsland);
+            cell.actionsInCells(report, allAnimalsOnIsland);
         });
-        report.printAllIslandStatistic(allAnimalsOnIsland);
+        System.out.println(allAnimalsOnIsland.get(2).getAnimalType() + " " +allAnimalsOnIsland.get(2).getHealth());
     }
 
     private void movementBetweenCells() {
 
-
     }
 
-    private void nightSleep() {
-    }
-
-
-
-
-    @Override
-    public Runnable call() throws Exception {
-        newDayStart();
-        return null;
-    }
 }

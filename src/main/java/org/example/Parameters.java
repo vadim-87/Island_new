@@ -10,12 +10,13 @@ public final class Parameters {
         throw new InstantiationError("You can not create an object of this type!");
     }
 
-    public static final List<AnimalType> ANIMAL_TYPE_LIST = Arrays.asList(BOA, FOX, EAGLE, WOLF, BEAR, HORSE, CATERPILLAR, DEER, RABBIT, MOUSE, GOAT, SHEEP, BOAR, BULL, DUCK);
+    public static final List<AnimalType> ANIMAL_TYPE_LIST = Arrays.asList(BOA, FOX, EAGLE, WOLF, BEAR, HORSE,
+            CATERPILLAR, DEER, RABBIT, MOUSE, GOAT, SHEEP, BOAR, BULL, DUCK);
     public static final String[] ANIMAL_ICONS = {"🐺, 🐍, 🦊,🐻,🦅,🐎,DEER, 🐇,🐁,🐃, 🐻, 🐎, 🦌, 🐗, 🐑, 🐐, 🐺, 🐍, 🦊, 🦅, 🐇, 🦆, 🐁, 🐛"};
     public static final double INDEX_OF_ATE_UP = 0.5;
-    public static final int ISLAND_HEIGHT = 5;
-    public static final int ISLAND_LENGTH = 10;
-    public static final int PROBABILITY_OF_REPRODUCTION = 2;
+    public static final int ISLAND_HEIGHT = 4;
+    public static final int ISLAND_LENGTH = 4;
+    public static final int PROBABILITY_OF_REPRODUCTION = 30;
     public static final int[][] ANIMAL_COMPATIBILITY_MATRIX = {
             {1, 0, 0, 0, 0, 10, 15, 60, 80, 60, 70, 15, 10, 40, 0, 0},
             {0, 1, 15, 0, 0, 0, 0, 20, 40, 0, 0, 0, 0, 10, 0, 0},

@@ -15,6 +15,6 @@ public class Horse extends PlantEeating {
 
 
     @Override
-    public void beEaten(List<Animal> listAllAnimals) {
+    public void die(List<Animal> listAllAnimals) {
     }
 }

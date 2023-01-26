@@ -5,7 +5,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 abstract class Animal implements Move {
     private Cell cell;
-    private int maxCountInCell;
     private AnimalType animalType;
     private double weight;
     private volatile double health = 100;
@@ -16,78 +15,7 @@ abstract class Animal implements Move {
         this.cell = cell;
         cell.addAnimalsToCurrentCell(this);
         this.setSex(ThreadLocalRandom.current().nextBoolean());
-        Starvation st = new Starvation(this);
-        st.start();
     }
-    public int getMaxCountInCell() {
-        return maxCountInCell;
-    }
-
-    public void setMaxCountInCell(int maxCountInCell) {
-        this.maxCountInCell = maxCountInCell;
-    }
-
-    public boolean isAlive() {
-        return isAlive;
-    }
-
-    public void setAlive(boolean alive) {
-        isAlive = alive;
-    }
-
-
-
-    public boolean getSex() {
-        return sex;
-    }
-
-    public void setSex(boolean sex) {
-        this.sex = sex;
-    }
-
-
-    public double getHealth() {
-        return health;
-    }
-
-    public void setHealth(double health) {
-        this.health = health;
-    }
-
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-
-    public AnimalType getAnimalType() {
-        return animalType;
-    }
-
-    public void setAnimalType(AnimalType type) {
-        this.animalType = type;
-    }
-
-
-    private void setCell(Cell newCell) {
-        cell = newCell;
-    }
-
-    public Cell getCell() {
-        return cell;
-    }
-
-
-    public Position getCurrentPosition() {
-        return cell.getPosition();
-    }
-
-    protected abstract Position getNewPosition();
-
 
     public boolean tryingToReproductive(Animal animal_2, List<Animal> listAllAnimals) {
 
@@ -107,17 +35,72 @@ abstract class Animal implements Move {
     }
 
     public boolean tryingToEat(Animal prey, int chance, List<Animal> listAllAnimals) {
-       // if (!((this.getHealth() + prey.weight * Parameters.INDEX_OF_ATE_UP) > 100)) {//настолько ли сыт, чтоб сожрать жертву
+            if (!((this.getHealth() + prey.weight * Parameters.INDEX_OF_ATE_UP) > 100)) {//настолько ли сыт, чтоб сожрать жертву
             int ran = ThreadLocalRandom.current().nextInt(0, 100);
             boolean eatOrNo = (chance > ran);
             if (eatOrNo) {
-                Edible foodstuff = (Edible) prey;
                 Eatable eatingAnimal = (Eatable) this;
-                eatingAnimal.eat(foodstuff);
-                foodstuff.beEaten(listAllAnimals);
+                Edible foodstuff = (Edible) prey;
+                eatingAnimal.eat(prey.getWeight());
+                foodstuff.die(listAllAnimals);
                 return true;
             }
-        //}
+        }
         return false;
     }
+
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
+
+    public boolean getSex() {
+        return sex;
+    }
+
+    public void setSex(boolean sex) {
+        this.sex = sex;
+    }
+
+    public synchronized double getHealth() {
+        return health;
+    }
+
+    public synchronized void setHealth(double health) {
+        this.health = health;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public AnimalType getAnimalType() {
+        return animalType;
+    }
+
+    public void setAnimalType(AnimalType type) {
+        this.animalType = type;
+    }
+
+    private void setCell(Cell newCell) {
+        cell = newCell;
+    }
+
+    public Cell getCell() {
+        return cell;
+    }
+
+    public Position getCurrentPosition() {
+        return cell.getPosition();
+    }
+
+    protected abstract Position getNewPosition();
 }

@@ -18,7 +18,7 @@ public enum AnimalType {
     BOAR(11, 50),
     BULL(12, 10),
     DUCK(13, 200),
-    CATERPILLAR(14, 1000),
+    CATERPILLAR(14, 100),
     PLANT(15, 200);
 
     private int index;

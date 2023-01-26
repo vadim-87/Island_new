@@ -9,14 +9,20 @@ public class GameEngine {
 
     public void start() throws InterruptedException {
         Island island = new Island();
+//        island.newDayStart();
+//        island.newDayStart();
 
-    Starvation starvation = new Starvation();
-    starvation.start();
+
+
+   //Starvation starvation = new Starvation();
+        //Starvation st = new Starvation(this);
+        //st.start();
+    //starvation.start();
 //
-//        while (true) {
-//            island.newDayStart();
-//            Thread.sleep(2000);
-//            }
+        while (true) {
+            island.newDayStart();
+            Thread.sleep(2000);
+            }
         }
     }
 
