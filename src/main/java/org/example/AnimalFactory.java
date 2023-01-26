@@ -12,24 +12,15 @@ public class AnimalFactory {
             case BEAR -> new Bear(cell);
             case HORSE -> new Horse(cell);
             case CATERPILLAR -> new Caterpillar(cell);
+            case DEER -> new Deer(cell);
+            case RABBIT -> new Rabbit(cell);
+            case MOUSE -> new Mouse(cell);
+            case GOAT -> new Goat(cell);
+            case SHEEP -> new Sheep(cell);
+            case BOAR -> new Boar(cell);
+            case BULL -> new Bull(cell);
+            case DUCK -> new Duck(cell);
             default -> throw new IllegalArgumentException("Wrong doughnut type:" + animal);
         };
     }
 }
-/**
- * HORSE,
- *     DEER,
- *     RABBIT,
- *     MOUSE,
- *     GOAT,
- *     SHEEP,
- *     BOAR,
- *     BULL,
- *     DUCK,
- *     CATERPILLAR,
- *     WOLF,
- *     BOA,
- *     FOX,
- *     BEAR,
- *     EAGLE
- */

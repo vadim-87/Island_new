@@ -19,7 +19,7 @@ public class Eagle extends Predator {
 
 
     @Override
-    Position getNewPosition() {
+    public Position getNewPosition() {
         return null;
     }
 

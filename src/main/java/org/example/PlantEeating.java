@@ -13,7 +13,6 @@ public abstract class PlantEeating extends Animal implements Eatable, Edible {
 
     @Override
     public boolean eat(Edible food) {
-        System.out.println("I AM PLANT EATING");
         return false;
     }
 

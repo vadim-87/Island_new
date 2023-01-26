@@ -1,8 +1,13 @@
 package org.example;
 
-public class GrowPlants implements Runnable{
-    @Override
-    public void run() {
+import java.util.concurrent.Callable;
 
+public class GrowPlants implements Callable<String> {
+
+
+
+    @Override
+    public String call() throws Exception {
+        return null;
     }
 }

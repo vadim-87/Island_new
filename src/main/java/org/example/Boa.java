@@ -12,7 +12,7 @@ public class Boa extends Predator implements Edible {
 
 
     @Override
-    Position getNewPosition() {
+    public Position getNewPosition() {
         return null;
     }
 

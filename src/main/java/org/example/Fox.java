@@ -12,7 +12,7 @@ public class Fox extends Predator {
 
 
     @Override
-    Position getNewPosition() {
+    public Position getNewPosition() {
         Position p = getCurrentPosition();
         int currentLength = p.getLength();
         int currentHeight = p.getHeight();

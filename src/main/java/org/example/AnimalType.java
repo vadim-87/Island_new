@@ -1,7 +1,5 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public enum AnimalType {
@@ -16,12 +14,12 @@ public enum AnimalType {
     RABBIT(7, 150),
     MOUSE(8, 500),
     GOAT(9, 140),
-    SHEEP(100, 140),
+    SHEEP(10, 140),
     BOAR(11, 50),
     BULL(12, 10),
     DUCK(13, 200),
     CATERPILLAR(14, 1000),
-    HERB(15, 200);
+    PLANT(15, 200);
 
     private int index;
     private int maxCountInCell;

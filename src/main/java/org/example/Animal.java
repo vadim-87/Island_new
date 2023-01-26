@@ -8,7 +8,7 @@ abstract class Animal implements Move {
     private int maxCountInCell;
     private AnimalType animalType;
     private double weight;
-    private volatile double health = 50;
+    private volatile double health = 100;
     private boolean sex;
     private boolean isAlive = true;
 
@@ -16,7 +16,8 @@ abstract class Animal implements Move {
         this.cell = cell;
         cell.addAnimalsToCurrentCell(this);
         this.setSex(ThreadLocalRandom.current().nextBoolean());
-
+        Starvation st = new Starvation(this);
+        st.start();
     }
     public int getMaxCountInCell() {
         return maxCountInCell;
@@ -85,7 +86,7 @@ abstract class Animal implements Move {
         return cell.getPosition();
     }
 
-    abstract Position getNewPosition();
+    protected abstract Position getNewPosition();
 
 
     public boolean tryingToReproductive(Animal animal_2, List<Animal> listAllAnimals) {
@@ -106,7 +107,7 @@ abstract class Animal implements Move {
     }
 
     public boolean tryingToEat(Animal prey, int chance, List<Animal> listAllAnimals) {
-        if (!((this.getHealth() + prey.weight * Parameters.INDEX_OF_ATE_UP) > 100)) {//настолько ли сыт, чтоб сожрать жертву
+       // if (!((this.getHealth() + prey.weight * Parameters.INDEX_OF_ATE_UP) > 100)) {//настолько ли сыт, чтоб сожрать жертву
             int ran = ThreadLocalRandom.current().nextInt(0, 100);
             boolean eatOrNo = (chance > ran);
             if (eatOrNo) {
@@ -116,7 +117,7 @@ abstract class Animal implements Move {
                 foodstuff.beEaten(listAllAnimals);
                 return true;
             }
-        }
+        //}
         return false;
     }
 }

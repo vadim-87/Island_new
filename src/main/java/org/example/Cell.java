@@ -37,18 +37,26 @@ public class Cell {
         return position;
     }
 
-    public void processCell(ReportClass report, List<Animal> allAnimalsOnIsland) {
-        List<Animal> animalsInCurrentCell = getAnimalsInCurrentCell().stream().toList();
+    public void processInCell(ReportClass report, List<Animal> allAnimalsOnIsland) {
+        predatorsActions(report, allAnimalsOnIsland);
+        plantEatingActions(report);
+    }
+
+    private void plantEatingActions(ReportClass report) {
+
+    }
+
+    private void predatorsActions(ReportClass report, List<Animal> allAnimalsOnIsland) {
+        List<Animal> animalsInCurrentCell = getAnimalsInCurrentCell().stream().filter(Animal::isAlive).toList();
         for (int i = 0; i < animalsInCurrentCell.size(); i++) {
             Animal animal_1 = animalsInCurrentCell.get(i);
-            if (animal_1.isAlive()) {
+            if(animal_1 instanceof Eatable)
                 for (int j = i + 1; j < animalsInCurrentCell.size(); j++) {
                     Animal animal_2 = animalsInCurrentCell.get(j);
-                    if (animal_2.isAlive()) {
-                        int codeOfAction = Parameters.animalCompatibilityMatrix[animal_1.getAnimalType().getIndex()][animal_2.getAnimalType().getIndex()];
+                        int codeOfAction = Parameters.ANIMAL_COMPATIBILITY_MATRIX[animal_1.getAnimalType().getIndex()][animal_2.getAnimalType().getIndex()];
                         boolean round = false;
                         if (codeOfAction == 0) {
-                            codeOfAction = Parameters.animalCompatibilityMatrix[animal_2.getAnimalType().getIndex()][animal_1.getAnimalType().getIndex()];
+                            codeOfAction = Parameters.ANIMAL_COMPATIBILITY_MATRIX[animal_2.getAnimalType().getIndex()][animal_1.getAnimalType().getIndex()];
                             round = true;
                         }
                         if (codeOfAction == 1) {
@@ -68,8 +76,6 @@ public class Cell {
                             break;
                         }
                     }
-                }
-            }
         }
     }
 

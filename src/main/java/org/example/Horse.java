@@ -9,7 +9,7 @@ public class Horse extends PlantEeating {
     }
 
     @Override
-    Position getNewPosition() {
+    public Position getNewPosition() {
         return this.getCurrentPosition();
     }
 

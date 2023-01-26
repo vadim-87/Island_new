@@ -7,7 +7,7 @@ public class Caterpillar extends PlantEeating{
     }
 
     @Override
-    Position getNewPosition() {
+    public Position getNewPosition() {
         return null;
     }
 }

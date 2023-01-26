@@ -3,22 +3,20 @@ package org.example;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static org.example.AnimalType.*;
-import static org.example.AnimalType.HORSE;
 
-
-public class Island {
+public class Island implements Callable<Runnable> {
 
     private Map<Position, Cell> islandMap;
     private List<Animal> allAnimalsOnIsland;
     public static int height = Parameters.ISLAND_HEIGHT;
     public static int length = Parameters.ISLAND_LENGTH;
 
-    public Island() throws InterruptedException {
+    public Island()  {
         initializeIsland();
     }
 
-    private void initializeIsland() throws InterruptedException {//создал остров
+    private void initializeIsland()  {//создал остров
+        System.out.println("Island initialization");
         islandMap = new HashMap<>();
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < height; j++) {
@@ -32,6 +30,8 @@ public class Island {
     }
 
     private void plantsGrow() {
+
+        System.out.println("ADD Plants");
         islandMap.forEach((position, cell) -> {
             List<Plant> plantsOnCurrentCell = cell.getPlantsInCurrentCell();
             int count = ThreadLocalRandom.current().nextInt(1, 200);
@@ -49,12 +49,13 @@ public class Island {
     }
 
     public void addAnimalsToIsland() {
+        System.out.println("ADD Animals on island");
         allAnimalsOnIsland = new ArrayList<>();
         AnimalFactory animalFactory = new AnimalFactory();
         islandMap.forEach((key, cell) -> {
             Animal newAnimal = null;
 
-            for (AnimalType type : Parameters.animalTypesList) {
+            for (AnimalType type : Parameters.ANIMAL_TYPE_LIST) {
                 int maxAnimalCount = type.getMaxCountInCell();
                 int currentAnimalCount = ThreadLocalRandom.current().nextInt(1, maxAnimalCount);
                 for (int i = 0; i < currentAnimalCount; i++) {
@@ -72,6 +73,7 @@ public class Island {
 
 
     public void newDayStart() {
+
         actionsInsideCells();
         movementBetweenCells();
         nightSleep();
@@ -80,9 +82,8 @@ public class Island {
 
     private void actionsInsideCells() {
         ReportClass report = new ReportClass();
-        report.printAllIslandStatistic(allAnimalsOnIsland);
         islandMap.forEach((position, cell) -> {
-            cell.processCell(report, allAnimalsOnIsland);
+            cell.processInCell(report, allAnimalsOnIsland);
         });
         report.printAllIslandStatistic(allAnimalsOnIsland);
     }
@@ -93,5 +94,14 @@ public class Island {
     }
 
     private void nightSleep() {
+    }
+
+
+
+
+    @Override
+    public Runnable call() throws Exception {
+        newDayStart();
+        return null;
     }
 }

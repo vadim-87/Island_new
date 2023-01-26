@@ -9,7 +9,7 @@ public class Bear extends Predator{
     }
 
     @Override
-    Position getNewPosition() {
+    public Position getNewPosition() {
         return this.getCurrentPosition();
     }
 
