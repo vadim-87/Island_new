@@ -13,11 +13,11 @@ public class Island {
 
     public Island() {
         initializeIsland();
-        plantsGrowOnIsland();//засеял травой
-        addAnimalsToIsland();//заселил зверей
+        plantsGrowOnIsland();//?????? ??????
+        addAnimalsToIsland();//??????? ??????
     }
 
-    private void initializeIsland() {//создал остров
+    private void initializeIsland() {//?????? ??????
         islandMap = new HashMap<>();
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < height; j++) {
@@ -68,28 +68,29 @@ public class Island {
 
 
     public void newDayStart() {
-        ReportClass report = new ReportClass();
+        System.out.println("ALLLLLL  on NACHALO DAY " + allAnimalsOnIsland.size());
+
+        Report report = new Report();
         Starvation st = new Starvation(allAnimalsOnIsland, report);
-        st.start();//запускаю голодание
+        st.start();//�������� ��������
         actionsInsideCells(report);
         movementBetweenCells();
+        //graveyard(allAnimalsOnIsland);
         report.printAllIslandStatistic(allAnimalsOnIsland);
-        graveyard(allAnimalsOnIsland);
-        System.out.println(allAnimalsOnIsland.get(5).getAnimalType() + " " + allAnimalsOnIsland.get(5).getHealth());
+
+        System.out.println("ALLLLLL  on END DAY " + allAnimalsOnIsland.size());
 
 
     }
 
     private void graveyard(List<Animal> allAnimalsOnIsland) {
         for (int i = 0; i < allAnimalsOnIsland.size(); i++) {
-            if (allAnimalsOnIsland.get(i).isAlive() || allAnimalsOnIsland.get(i).getHealth() < 10) {
-                allAnimalsOnIsland.remove(allAnimalsOnIsland.get(i));
-            }
+            System.out.println(allAnimalsOnIsland.get(i));
         }
     }
 
 
-    private void actionsInsideCells(ReportClass report) {
+    private void actionsInsideCells(Report report) {
         islandMap.forEach((position, cell) -> {
             cell.actionsInCells(report, allAnimalsOnIsland);
         });
@@ -97,7 +98,9 @@ public class Island {
     }
 
     private void movementBetweenCells() {
-
+        islandMap.forEach((position, cell) -> {
+            cell.moveBetweenCell(allAnimalsOnIsland);
+        });
     }
 
 }

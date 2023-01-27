@@ -8,6 +8,8 @@ public class Bull extends PlantEeating {
     public Bull(Cell cell) {
         super(cell);
         this.setWeight(700);
+        this.setSpeed(3);
+
     }
 
     @Override

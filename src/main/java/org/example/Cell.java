@@ -3,8 +3,6 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 public class Cell {
 
     private Position position;
@@ -15,20 +13,10 @@ public class Cell {
         this.position = position;
     }
 
-
-    public synchronized void removeFromCell(Animal animal) {
-        animalsInCurrentCell.remove(animal);
-    }
-
-    public void addAnimalsToCurrentCell(Animal animal) {
-        animalsInCurrentCell.add(animal);
-    }
-
-
-    public void actionsInCells(ReportClass report, List<Animal> allAnimalsOnIsland) {
+    public void actionsInCells(Report report, List<Animal> allAnimalsOnIsland) {
         List<Animal> animalsInCurrentCell = this.animalsInCurrentCell
                 .stream()
-                .filter(Animal::isAlive)
+                //.filter(Animal::isAlive)
                 .toList();
         for (int i = 0; i < animalsInCurrentCell.size(); i++) {
             Animal animal_1 = animalsInCurrentCell.get(i);
@@ -43,43 +31,42 @@ public class Cell {
                 if (codeOfAction == 1) {
                     if (animal_1.tryingToReproductive(animal_2, allAnimalsOnIsland)) {
                         report.animalReproduce(animal_2);
+
                     }
                 } else if (codeOfAction > 1) {
                     if (swap) {
                         if (animal_2.tryingToEat(animal_1, codeOfAction, allAnimalsOnIsland)) {
                             report.animalDeath(animal_1);
+
                         }
                     } else {
                         if (animal_1.tryingToEat(animal_2, codeOfAction, allAnimalsOnIsland)) {
                             report.animalDeath(animal_2);
                         }
                     }
-
                 }
             }
             break;
-
         }
     }
 
-
-    @Override
-    public String toString() {
-        int fox = 0;
-        int boa = 0;
-        int eagle = 0;
-        int wolf = 0;
-        int bear = 0;
-        for (Animal a : animalsInCurrentCell) {
-            if (a instanceof Fox) fox++;
-            if (a instanceof Boa) boa++;
-            if (a instanceof Eagle) eagle++;
-            if (a instanceof Wolf) wolf++;
-            if (a instanceof Bear) bear++;
+    public void moveBetweenCell(List<Animal> allAnimalsOnIsland) {
+        for (int i = 0; i < animalsInCurrentCell.size(); i++) {
+            Animal a = animalsInCurrentCell.get(i);
+            a.move();
         }
-        return " In cell{" +
-                "x=" + position.getHeight() + ", y=" + position.getLength() +
-                '}' + " are: " + " \uD83E\uDD8A=" + fox + ", \uD83D\uDC0D=" + boa + ", \uD83E\uDD85=" + eagle + ", \uD83D\uDC3A=" + wolf + "\uD83D\uDC3B=" + bear;
+    }
+
+    public boolean canMoveInThisCell(){
+        return true;
+    }
+
+    public synchronized void removeFromCell(Animal animal) {
+        animalsInCurrentCell.remove(animal);
+    }
+
+    public void addAnimalsToCurrentCell(Animal animal) {
+        animalsInCurrentCell.add(animal);
     }
 
     public List<Plant> getPlantsInCurrentCell() {
@@ -93,4 +80,6 @@ public class Cell {
     public Position getPosition() {
         return position;
     }
+
+
 }

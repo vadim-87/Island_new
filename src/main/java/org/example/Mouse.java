@@ -8,6 +8,9 @@ public class Mouse extends PlantEeating {
     public Mouse(Cell cell) {
         super(cell);
         this.setWeight(0.05);
+        this.setSpeed(1);
+
+
     }
 
     @Override

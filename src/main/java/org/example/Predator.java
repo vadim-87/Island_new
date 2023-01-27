@@ -8,6 +8,13 @@ public abstract class Predator extends Animal implements Eatable, Edible {
         super(cell);
     }
 
+    @Override
+    public boolean move() {
+        Position currentPosition = this.getCurrentPosition();
+        int currentLength = currentPosition.getLength();
+        int currentHeight = currentPosition.getHeight();
+
+    }
 
     @Override
     public void eat(double food) {
@@ -16,9 +23,9 @@ public abstract class Predator extends Animal implements Eatable, Edible {
     }
 
     @Override
-    public void die(List<Animal> listAllAnimals) {
+    public void die(List<Animal> allAnimalsOnIsland) {
         this.getCell().removeFromCell(this);
         this.setAlive(false);
-        listAllAnimals.remove(this);
+        allAnimalsOnIsland.remove(this);
     }
 }

@@ -3,13 +3,13 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportClass {
+public class Report {
     private static int DAY = 1;
     public static int initOfAnimals = 0;
     List<Animal> listOfAnimalDie;
     List<Animal> listOfAnimalBorn;
 
-    public ReportClass() {
+    public Report() {
         listOfAnimalDie = new ArrayList<>();
         listOfAnimalBorn = new ArrayList<>();
     }
@@ -26,17 +26,18 @@ public class ReportClass {
     }
 
 
-    public void printAllIslandStatistic(List<Animal> list) {
-        int x = initOfAnimals + listOfAnimalBorn.size() - listOfAnimalDie.size();
-        for (AnimalType type : Parameters.ANIMAL_TYPE_LIST) {
-            List<Animal> collect = list.stream().filter(animal -> animal.getAnimalType() == type).toList();
+    public void printAllIslandStatistic(List<Animal> allAnimalsOnIsland) {
+//        int x = initOfAnimals + listOfAnimalBorn.size() - listOfAnimalDie.size();
+//        for (AnimalType type : Parameters.ANIMAL_TYPE_LIST) {
+//            List<Animal> collect = allAnimalsOnIsland.stream().filter(animal -> animal.getAnimalType() == type).toList();
             //System.out.println(type + "S=" + collect.size());
-        }
+       // }
         System.out.println("DAY " + DAY);
-        System.out.println("all animals " + list.size());
+        //System.out.println("all animals " + allAnimalsOnIsland.size());
         System.out.println("Born on this day: " + listOfAnimalBorn.size() + " animals");
         System.out.println("Die on this day: " + listOfAnimalDie.size() + " animals");
-        System.out.println("All=" + x);
+        //System.out.println("all animals on day END  " + (allAnimalsOnIsland.size() + listOfAnimalBorn.size() - listOfAnimalDie.size()));
+
         DAY++;
 
     }

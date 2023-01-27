@@ -9,17 +9,21 @@ abstract class Animal implements Move {
     private double weight;
     private volatile double health = 100;
     private boolean sex;
-    private boolean isAlive = true;
+    private boolean isAlive;
+    private int speed;
+
+
 
     public Animal(Cell cell) {
         this.cell = cell;
         cell.addAnimalsToCurrentCell(this);
         this.setSex(ThreadLocalRandom.current().nextBoolean());
+        this.isAlive = true;
     }
 
-    public boolean tryingToReproductive(Animal animal_2, List<Animal> listAllAnimals) {
+    public boolean tryingToReproductive(Animal animal_2, List<Animal> allAnimalsOnIsland) {
 
-        if (this.getSex() != animal_2.getSex()) {
+        if (this.getSex() != animal_2.getSex() && (canAnimalGetInThisCell(animal_2))) {
             int ran = ThreadLocalRandom.current().nextInt(0, 100);
             boolean happily = (ran > (100 - Parameters.PROBABILITY_OF_REPRODUCTION));
             if (happily) {
@@ -27,25 +31,36 @@ abstract class Animal implements Move {
                 Animal newAnimal = animalFactory.createAnimal(this.getAnimalType(), this.getCell());
                 newAnimal.setAnimalType(this.getAnimalType());
                 newAnimal.setSex(ThreadLocalRandom.current().nextBoolean());
-                listAllAnimals.add(newAnimal);
+                allAnimalsOnIsland.add(newAnimal);
                 return true;
             }
         }
         return false;
     }
 
-    public boolean tryingToEat(Animal prey, int chance, List<Animal> listAllAnimals) {
-            if (!((this.getHealth() + prey.weight * Parameters.INDEX_OF_ATE_UP) > 100)) {//настолько ли сыт, чтоб сожрать жертву
+    private boolean canAnimalGetInThisCell(Animal animal_2) {
+        List<Animal> animalsInCurrentCell = this.cell.getAnimalsInCurrentCell();
+        int countAnimalsInCurrentCell = 0;
+        for (Animal a:animalsInCurrentCell) {
+            if(a.getAnimalType() == this.getAnimalType()){
+                countAnimalsInCurrentCell++;
+            }
+        }
+        return animal_2.animalType.getMaxCountInCell() > countAnimalsInCurrentCell;
+    }
+
+    public boolean tryingToEat(Animal prey, int chance, List<Animal> allAnimalsOnIsland) {
+          //if (!((this.getHealth() + prey.weight * Parameters.INDEX_OF_ATE_UP) > 100)) {//настолько ли сыт, чтоб сожрать жертву
             int ran = ThreadLocalRandom.current().nextInt(0, 100);
             boolean eatOrNo = (chance > ran);
             if (eatOrNo) {
                 Eatable eatingAnimal = (Eatable) this;
                 Edible foodstuff = (Edible) prey;
                 eatingAnimal.eat(prey.getWeight());
-                foodstuff.die(listAllAnimals);
+                foodstuff.die(allAnimalsOnIsland);
                 return true;
             }
-        }
+       // }
         return false;
     }
 
@@ -102,5 +117,23 @@ abstract class Animal implements Move {
         return cell.getPosition();
     }
 
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
     protected abstract Position getNewPosition();
+
+    @Override
+    public String toString() {
+        return animalType +
+                ", weight=" + weight +
+                ", health=" + health +
+                ", sex=" + sex +
+                ", isAlive=" + isAlive +
+                '}';
+    }
 }

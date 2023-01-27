@@ -8,6 +8,8 @@ public class Goat extends PlantEeating {
     public Goat(Cell cell) {
         super(cell);
         this.setWeight(60);
+        this.setSpeed(3);
+
     }
 
     @Override

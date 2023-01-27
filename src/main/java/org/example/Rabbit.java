@@ -8,6 +8,8 @@ public class Rabbit extends PlantEeating {
     public Rabbit(Cell cell) {
         super(cell);
         this.setWeight(2);
+        this.setSpeed(2);
+
     }
 
     @Override

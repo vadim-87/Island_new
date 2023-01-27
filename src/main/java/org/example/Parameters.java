@@ -13,10 +13,11 @@ public final class Parameters {
     public static final List<AnimalType> ANIMAL_TYPE_LIST = Arrays.asList(BOA, FOX, EAGLE, WOLF, BEAR, HORSE,
             CATERPILLAR, DEER, RABBIT, MOUSE, GOAT, SHEEP, BOAR, BULL, DUCK);
     public static final String[] ANIMAL_ICONS = {"🐺, 🐍, 🦊,🐻,🦅,🐎,DEER, 🐇,🐁,🐃, 🐻, 🐎, 🦌, 🐗, 🐑, 🐐, 🐺, 🐍, 🦊, 🦅, 🐇, 🦆, 🐁, 🐛"};
-    public static final double INDEX_OF_ATE_UP = 0.5;
-    public static final int ISLAND_HEIGHT = 4;
-    public static final int ISLAND_LENGTH = 4;
-    public static final int PROBABILITY_OF_REPRODUCTION = 30;
+    public static final double INDEX_OF_ATE_UP = 0.2;
+    public static final double STARVATION_HEALTH_IN_SEC = 10;
+    public static final int ISLAND_HEIGHT = 10;
+    public static final int ISLAND_LENGTH = 5;
+    public static final int PROBABILITY_OF_REPRODUCTION = 70;
     public static final int[][] ANIMAL_COMPATIBILITY_MATRIX = {
             {1, 0, 0, 0, 0, 10, 15, 60, 80, 60, 70, 15, 10, 40, 0, 0},
             {0, 1, 15, 0, 0, 0, 0, 20, 40, 0, 0, 0, 0, 10, 0, 0},

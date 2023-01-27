@@ -6,6 +6,8 @@ public class Horse extends PlantEeating {
     public Horse(Cell cell) {
         super(cell);
         this.setWeight(400);
+        this.setSpeed(4);
+
     }
 
     @Override

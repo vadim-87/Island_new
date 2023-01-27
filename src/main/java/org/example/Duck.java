@@ -8,6 +8,9 @@ public class Duck extends PlantEeating {
     public Duck(Cell cell) {
         super(cell);
         this.setWeight(1);
+        this.setSpeed(4);
+
+
     }
 
     @Override

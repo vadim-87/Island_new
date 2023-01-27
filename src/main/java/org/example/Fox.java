@@ -8,6 +8,8 @@ public class Fox extends Predator {
     public Fox(Cell cell) {
         super(cell);
         this.setWeight(8);
+        this.setSpeed(2);
+
     }
 
 
@@ -38,11 +40,11 @@ public class Fox extends Predator {
         return newPosition;
     }
 
-    @Override
-    public String toString() {
-        return "🦊 x=" + this.getCurrentPosition().getHeight()
-                + " y=" + this.getCurrentPosition().getLength() + " health=" + this.getHealth();
-    }
+//    @Override
+//    public String toString() {
+//        return "🦊 x=" + this.getCurrentPosition().getHeight()
+//                + " y=" + this.getCurrentPosition().getLength() + " health=" + this.getHealth();
+//    }
 
 
 }

@@ -11,13 +11,18 @@ public abstract class PlantEeating extends Animal implements Eatable, Edible {
     }
 
     @Override
+    public boolean move() {
+        return false;
+    }
+
+    @Override
     public void eat(double food) {
         System.out.println("PLANTING EAT");
         this.setHealth(getHealth() + food * 0.1);
     }
 
     @Override
-    public void die(List<Animal> listAllAnimals) {
+    public synchronized void die(List<Animal> listAllAnimals) {
         this.getCell().removeFromCell(this);
         this.setAlive(false);
         listAllAnimals.remove(this);
