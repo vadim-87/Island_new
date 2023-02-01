@@ -6,6 +6,10 @@ import java.util.concurrent.*;
 
 public class Island {
 
+    public Map<Position, Cell> getIslandMap() {
+        return islandMap;
+    }
+
     private Map<Position, Cell> islandMap;
     private List<Animal> allAnimalsOnIsland;
     public static final int height = Parameters.ISLAND_HEIGHT;
@@ -13,11 +17,11 @@ public class Island {
 
     public Island() {
         initializeIsland();
-        plantsGrowOnIsland();//?????? ??????
-        addAnimalsToIsland();//??????? ??????
+        plantsGrowOnIsland();
+        addAnimalsToIsland();
     }
 
-    private void initializeIsland() {//?????? ??????
+    private void initializeIsland() {
         islandMap = new HashMap<>();
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < height; j++) {
@@ -36,11 +40,6 @@ public class Island {
                 plantsOnCurrentCell.add(new Plant(cell));
             }
         });
-
-//        Runnable growPlantsTask = new GrowPlants();
-//        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-//        executorService.scheduleAtFixedRate(growPlantsTask, 1, 2, TimeUnit.SECONDS);
-
 
     }
 
@@ -62,20 +61,21 @@ public class Island {
             cell.addAnimalsToCurrentCell(newAnimal);
 
         });
+        Starvation st = new Starvation(allAnimalsOnIsland);
+        st.start();
+
 
     }
-
 
 
     public void newDayStart() {
         System.out.println("ALLLLLL  on NACHALO DAY " + allAnimalsOnIsland.size());
 
         Report report = new Report();
-        Starvation st = new Starvation(allAnimalsOnIsland, report);
-        st.start();//запустил голодуху
+
         actionsInsideCells(report);
-        movementBetweenCells();
-        //graveyard(allAnimalsOnIsland);
+        //movementBetweenCells();
+        graveyard(allAnimalsOnIsland);
         report.printAllIslandStatistic(allAnimalsOnIsland);
 
         System.out.println("ALLLLLL  on END DAY " + allAnimalsOnIsland.size());
@@ -85,7 +85,10 @@ public class Island {
 
     private void graveyard(List<Animal> allAnimalsOnIsland) {
         for (int i = 0; i < allAnimalsOnIsland.size(); i++) {
-            System.out.println(allAnimalsOnIsland.get(i));
+            Animal a = allAnimalsOnIsland.get(i);
+            if (!a.isAlive()) {
+                allAnimalsOnIsland.remove(a);
+            }
         }
     }
 
@@ -94,12 +97,12 @@ public class Island {
         islandMap.forEach((position, cell) -> {
             cell.actionsInCells(report, allAnimalsOnIsland);
         });
-        System.out.println(allAnimalsOnIsland.get(2).getAnimalType() + " " +allAnimalsOnIsland.get(2).getHealth());
+        System.out.println(allAnimalsOnIsland.get(2).getAnimalType() + " " + allAnimalsOnIsland.get(2).getHealth());
     }
 
     private void movementBetweenCells() {
         islandMap.forEach((position, cell) -> {
-            cell.moveBetweenCell(allAnimalsOnIsland);
+            cell.moveAnimalsInsideCurrentCell();
         });
     }
 

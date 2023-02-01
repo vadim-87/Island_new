@@ -1,9 +1,10 @@
 package org.example;
 
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-abstract class Animal implements Move {
+abstract class Animal {
     private Cell cell;
     private AnimalType animalType;
     private double weight;
@@ -11,7 +12,7 @@ abstract class Animal implements Move {
     private boolean sex;
     private boolean isAlive;
     private int speed;
-
+    protected abstract Position getNewPosition();
 
 
     public Animal(Cell cell) {
@@ -38,11 +39,11 @@ abstract class Animal implements Move {
         return false;
     }
 
-    private boolean canAnimalGetInThisCell(Animal animal_2) {
+    public boolean canAnimalGetInThisCell(Animal animal_2) {
         List<Animal> animalsInCurrentCell = this.cell.getAnimalsInCurrentCell();
         int countAnimalsInCurrentCell = 0;
-        for (Animal a:animalsInCurrentCell) {
-            if(a.getAnimalType() == this.getAnimalType()){
+        for (Animal a : animalsInCurrentCell) {
+            if (a.getAnimalType() == this.getAnimalType()) {
                 countAnimalsInCurrentCell++;
             }
         }
@@ -50,17 +51,17 @@ abstract class Animal implements Move {
     }
 
     public boolean tryingToEat(Animal prey, int chance, List<Animal> allAnimalsOnIsland) {
-          //if (!((this.getHealth() + prey.weight * Parameters.INDEX_OF_ATE_UP) > 100)) {//настолько ли сыт, чтоб сожрать жертву
-            int ran = ThreadLocalRandom.current().nextInt(0, 100);
-            boolean eatOrNo = (chance > ran);
-            if (eatOrNo) {
-                Eatable eatingAnimal = (Eatable) this;
-                Edible foodstuff = (Edible) prey;
-                eatingAnimal.eat(prey.getWeight());
-                foodstuff.die(allAnimalsOnIsland);
-                return true;
-            }
-       // }
+        //if (!((this.getHealth() + prey.weight * Parameters.INDEX_OF_ATE_UP) > 100)) {//настолько ли сыт, чтоб сожрать жертву
+        int ran = ThreadLocalRandom.current().nextInt(0, 100);
+        boolean eatOrNo = (chance > ran);
+        if (eatOrNo) {
+            Eatable eatingAnimal = (Eatable) this;
+            Edible foodstuff = (Edible) prey;
+            eatingAnimal.eat(prey.getWeight());
+            foodstuff.die(allAnimalsOnIsland);
+            return true;
+        }
+        // }
         return false;
     }
 
@@ -105,7 +106,7 @@ abstract class Animal implements Move {
         this.animalType = type;
     }
 
-    private void setCell(Cell newCell) {
+    public void setCell(Cell newCell) {
         cell = newCell;
     }
 
@@ -125,7 +126,6 @@ abstract class Animal implements Move {
         this.speed = speed;
     }
 
-    protected abstract Position getNewPosition();
 
     @Override
     public String toString() {

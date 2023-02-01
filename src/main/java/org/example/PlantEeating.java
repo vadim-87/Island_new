@@ -10,10 +10,6 @@ public abstract class PlantEeating extends Animal implements Eatable, Edible {
         super(cell);
     }
 
-    @Override
-    public boolean move() {
-        return false;
-    }
 
     @Override
     public void eat(double food) {

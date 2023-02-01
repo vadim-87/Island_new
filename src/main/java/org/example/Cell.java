@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Cell {
 
@@ -50,16 +51,18 @@ public class Cell {
         }
     }
 
-    public void moveBetweenCell(List<Animal> allAnimalsOnIsland) {
+    public void moveAnimalsInsideCurrentCell() {
         for (int i = 0; i < animalsInCurrentCell.size(); i++) {
-            Animal a = animalsInCurrentCell.get(i);
-            a.move();
+            Animal a = animalsInCurrentCell.get(i);//Random r = new Random();
+            Cell newCell = a.getCurrentPosition().getNewCell(a);
+            if (newCell != null) {
+                a.setCell(newCell);
+                removeFromCell(a);
+
+           }
         }
     }
 
-    public boolean canMoveInThisCell(){
-        return true;
-    }
 
     public synchronized void removeFromCell(Animal animal) {
         animalsInCurrentCell.remove(animal);
